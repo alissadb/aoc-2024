@@ -62,9 +62,6 @@ ignore = [
     "N999", # Invalid module name
     "G004", # logging-f-string
     "UP006", # Non PEP 585 annotation
-    "PLR0913", # Too many arguments in function definition
-    "PLR0917", # Too many positional arguments
-    "PLW1514", # `open` in text mode without explicit `encoding` argument
 ]
 
 [tool.ruff.lint.pydocstyle]
