@@ -13,17 +13,28 @@ def read_input() -> tuple[set[tuple[int, int]], list[list[int]]]:
 
     return rules, updates
 
-def is_valid_rule(update: list[int], rules: set[tuple[int, int]]) -> bool:
-  valid_indices = []
-  for left_value, right_value in rules:
-    if left_value in update and right_value in update:
-       valid_indices.append(update.index(left_value) < update.index(right_value))
 
-  return all(valid_indices)
+def is_valid_rule(update: list[int], rules: set[tuple[int, int]]) -> bool:
+    valid_indices = []
+    for left_value, right_value in rules:
+        if left_value in update and right_value in update:
+            valid_indices.append(update.index(left_value) < update.index(right_value))
+
+    return all(valid_indices)
+
+
+def compare_values(left_value: int, right_value: int, rules: set[tuple[int, int]]) -> int:
+    if (left_value, right_value) in rules:
+        return -1
+    return 0
 
 
 def sort_update(update: list[int], rules: set[tuple[int, int]]) -> list[int]:
-    return sorted(update, key=cmp_to_key(lambda left_value, right_value: -1 if (left_value, right_value) in rules else 0))
+    return sorted(
+        update,
+        key=cmp_to_key(lambda left, right: compare_values(left, right, rules)),
+    )
+
 
 def calculate_median(updates: list[list[int]], rules: set[tuple[int, int]]) -> tuple[int, int]:
     median_updates = 0
@@ -40,6 +51,7 @@ def calculate_median(updates: list[list[int]], rules: set[tuple[int, int]]) -> t
 
     return median_updates, median_updates_invalid
 
+
 def main() -> None:
     rules, updates = read_input()
     median_updates, median_updates_invalid = calculate_median(updates, rules)
@@ -47,7 +59,6 @@ def main() -> None:
     logger.info(f"Part 1: {median_updates}")
     logger.info(f"Part 2: {median_updates_invalid}")
 
+
 if __name__ == "__main__":
     main()
-
-
